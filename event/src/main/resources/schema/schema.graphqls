@@ -1,0 +1,70 @@
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+}
+
+type Event {
+  id: ID!
+  name: String!
+  location: String!
+  organizer: String!
+  attendees: [String!]!
+  dateTime: String!
+  duration: String!
+}
+
+type AttendeeEventCount {
+    firstName: String
+    lastName: String
+    events: [EventDetail!]!
+}
+
+type EventDetail {
+  date: String!
+  count: Int!
+}
+
+type Query {
+  getEventDetail(id: ID!): Event
+  listEvents(
+    dateTime: [String]
+    duration: [String!]
+    organizer: [String]
+    attendees: [String!]
+    location: String
+    radius: Int
+  ): [Event!]
+  getDailyAttendeesEventCount(
+    startDate: String!
+    endDate: String!
+  ): [AttendeeEventCount!]
+    
+}
+
+type Mutation {
+  createEvent(
+    name: String!
+    location: String!
+    organizerId: ID!
+    attendeeIds: [ID!]!
+    dateTime: String!
+    duration: String!
+  ): Event
+  updateEvent(
+    id: ID!
+    name: String
+    location: String
+    organizerId: ID
+    attendeeIds: [ID!]
+    dateTime: String
+    duration: String
+  ): Event
+}
+
+
+
+
+type Subscription {
+  eventsUpdated: Event
+}
